@@ -1,0 +1,130 @@
+/* 🌈 Background Gradient Animation */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ✨ Smooth Card Animation */
+.card {
+  border-radius: 15px !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* 🎨 Buttons with Glow Effect */
+.btn {
+  border-radius: 30px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+.btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2) !important;
+}
+
+/* ✨ Animated Table Hover */
+.table tbody tr {
+  transition: all 0.25s ease;
+}
+.table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.6) !important;
+  transform: scale(1.01);
+}
+
+/* 📝 Input Fields */
+.form-control, .form-select {
+  border-radius: 12px !important;
+  border: 1.5px solid rgba(255,255,255,0.4) !important;
+  box-shadow: none !important;
+  transition: all 0.25s ease;
+}
+.form-control:focus, .form-select:focus {
+  border-color: #764ba2 !important;
+  box-shadow: 0 0 10px rgba(118, 75, 162, 0.5) !important;
+  background: rgba(255,255,255,0.95) !important;
+}
+
+/* 🔖 Card Headers */
+.card-header {
+  border-radius: 12px 12px 0 0 !important;
+  font-size: 1.1rem !important;
+  letter-spacing: 0.5px;
+}
+
+/* 🖥️ Responsive Fixes */
+@media (max-width: 768px) {
+  .btn {
+    width: 100% !important;
+    margin-bottom: 10px;
+  }
+  .form-control, .form-select {
+    font-size: 0.9rem !important;
+  }
+  .card-header {
+    font-size: 1rem !important;
+    text-align: center;
+  }
+  .table {
+    font-size: 0.85rem;
+  }
+  .custom-btn {
+    width: 50%;
+  }
+}
+
+/* 🌟 Stat Cards */
+.card.text-center {
+  border-radius: 18px !important;
+  background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(255,255,255,0.65)) !important;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+.card.text-center:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+}
+
+
+.btn-sm.custom-btn {
+  padding: 2px 6px !important;  /* top/bottom | left/right */
+  width: 25%;
+  font-size: 0.8rem !important
+}
+
+
+/* 📱 Collapsible behavior for small screens */
+@media (max-width: 768px) {
+  .collapsible-section {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .collapsible-section.active {
+    max-height: 1000px; /* big enough to show content */
+  }
+
+  /* Make tables scrollable */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+
+/* Add toggle button above each card on small screens */
+@media (max-width: 768px) {
+  .card > .card-header::after {
+    content: "▼";
+    float: right;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  .card.collapsed > .card-header::after {
+    transform: rotate(-90deg);
+  }
+}
