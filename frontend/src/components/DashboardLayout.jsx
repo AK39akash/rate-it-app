@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Nav, Navbar, Offcanvas, Button } from 'react-bootstrap';
+import { Container, Row, Col, Nav, Navbar, Offcanvas, Button, Modal } from 'react-bootstrap';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -8,11 +8,27 @@ const DashboardLayout = ({ children, role }) => {
   const location = useLocation();
   const [showMobile, setShowMobile] = useState(false);
 
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [pendingPath, setPendingPath] = useState(null);
+  
+
+  const token = localStorage.getItem("token");
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     navigate('/login');
   };
+
+  const handleProtectedNavigation = (path) => {
+    if (!token) {
+      setPendingPath(path);
+      setShowLoginModal(true);
+      return;
+    }
+
+    navigate(path);
+  }
 
   const menuItems = {
     ADMIN: [
@@ -25,7 +41,7 @@ const DashboardLayout = ({ children, role }) => {
       { label: 'Settings', path: '/owner/settings' },
     ],
     USER: [
-      { label: 'Explore Stores', path: '/user' },
+      { label: 'Explore Stores', path: '/' },
       { label: 'My Ratings', path: '/user/ratings' },
       { label: 'Settings', path: '/user/settings' },
     ]
@@ -46,8 +62,20 @@ const DashboardLayout = ({ children, role }) => {
         {currentMenu.map((item) => (
           <Link 
             key={item.path} 
-            to={item.path}
-            onClick={() => setShowMobile(false)}
+            to="#"
+            onClick={(e) => {
+              e.preventDefault();
+              setShowMobile(false);
+
+              if (
+                item.path === "/user/ratings" ||
+                item.path === "/user/settings"
+              ) {
+                handleProtectedNavigation(item.path);
+              } else {
+                navigate(item.path);
+              }
+            }}
             className={`nav-link text-decoration-none rounded-3 px-3 py-2 ${location.pathname === item.path ? 'bg-indigo-500 text-white' : 'text-muted'}`}
             style={{
               backgroundColor: location.pathname === item.path ? 'rgba(99, 102, 241, 0.2)' : 'transparent',
@@ -62,18 +90,36 @@ const DashboardLayout = ({ children, role }) => {
       </Nav>
 
       <div className="mt-auto pt-4 border-top border-secondary">
-        <motion.button 
-          onClick={handleLogout}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="w-100 py-2 border-0 rounded-3 text-white fw-medium shadow-sm d-flex align-items-center justify-content-center gap-2"
-          style={{ 
-            background: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)',
-            boxShadow: '0 4px 6px -1px rgba(220, 38, 38, 0.3)'
-          }}
-        >
-          <span>Log Out</span>
-        </motion.button>
+        {token ? (
+
+            <motion.button 
+                onClick={handleLogout}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-100 py-2 border-0 rounded-3 text-white fw-medium shadow-sm d-flex align-items-center justify-content-center gap-2"
+                style={{ 
+                    background: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)',
+                    boxShadow: '0 4px 6px -1px rgba(220, 38, 38, 0.3)'
+                }}
+            >
+                <span>Log Out</span>
+            </motion.button>
+        ) : (
+
+            <motion.button 
+                onClick={() => navigate("/login")}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-100 py-2 border-0 rounded-3 text-white fw-medium shadow-sm d-flex align-items-center justify-content-center gap-2"
+                style={{ 
+                    background: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)',
+                    boxShadow: '0 4px 6px -1px rgba(220, 38, 38, 0.3)'
+                }}
+            >
+                <span>Login</span>
+            </motion.button>
+
+        )}
       </div>
     </>
   );
@@ -134,6 +180,43 @@ const DashboardLayout = ({ children, role }) => {
             </motion.div>
         </Container>
       </div>
+
+      <Modal
+        show={showLoginModal}
+        onHide={() => setShowLoginModal(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Login Required</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          Please login to access this feature.
+        </Modal.Body>
+
+        <Modal.Footer>
+          
+          <Button
+            variant='secondary'
+            onClick={() => setShowLoginModal(false)}
+          >
+            Cancel
+          </Button>
+
+          <Button
+            variant='primary'
+            onClick={() => {
+              setShowLoginModal(false);
+              navigate("/login");
+            }}
+          >
+            Login
+          </Button>
+          
+        </Modal.Footer>
+      </Modal>
+
+
     </div>
   );
 };

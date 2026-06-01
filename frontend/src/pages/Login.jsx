@@ -43,7 +43,7 @@ function Login({ setUser }) {
             const role = data.user.role;
             if (role === "ADMIN") navigate("/admin");
             else if (role === "OWNER") navigate("/owner");
-            else navigate("/user");
+            else navigate("/");
             
         } catch (err) {
             console.error(err);
