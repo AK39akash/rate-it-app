@@ -22,7 +22,7 @@ function Register() {
         const {name, email, address, password, role} = form; // Include role if backend supports it
 
         try {
-            const response = await fetch("http://43.204.232.198:4002/api/auth/register", {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
                 method: 'POST',
                 headers: { "Content-Type": 'application/json' },
                 body: JSON.stringify({ name, email, address, password, role }), // Sending role to backend if it accepts

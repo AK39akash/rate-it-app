@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance with base configuration
 const api = axios.create({
-  baseURL: 'http://43.204.232.198:4002/api', // Adjust if your backend port differs
+  baseURL: `${import.meta.env.VITE_API_URL}`, // Adjust if your backend port differs
   headers: {
     'Content-Type': 'application/json',
   },

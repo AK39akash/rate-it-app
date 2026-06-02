@@ -19,7 +19,7 @@ export default function OwnerDashboard({ view }) {
 
   async function fetchOwnerStores() {
     try {
-      const res = await fetch("http://43.204.232.198:4002/api/stores/my-stores", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/stores/my-stores`, {
          headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -34,7 +34,7 @@ export default function OwnerDashboard({ view }) {
 
   async function fetchStoreRatings(store, sortBy, order) {
       try {
-          const rRes = await fetch(`http://43.204.232.198:4002/api/ratings/store/${store.id}/raters?sort=${sortBy}&order=${order}`, {
+          const rRes = await fetch(`${import.meta.env.VITE_API_URL}/ratings/store/${store.id}/raters?sort=${sortBy}&order=${order}`, {
              headers: { Authorization: `Bearer ${token}` }
           });
           const raters = await rRes.json();
@@ -58,7 +58,7 @@ export default function OwnerDashboard({ view }) {
   const handlePasswordUpdate = async (e) => {
       e.preventDefault();
       try {
-          const res = await fetch("http://43.204.232.198:4002/api/owner/update-password", {
+          const res = await fetch(`${import.meta.env.VITE_API_URL}/owner/update-password`, {
               method: "PUT",
               headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
               body: JSON.stringify({ password: newPassword })

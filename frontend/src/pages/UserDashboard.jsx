@@ -39,7 +39,7 @@ export default function UserDashboard({ view }) {
   async function fetchData() {
     try {
       const sRes = await fetch(
-        `http://43.204.232.198:4002/api/stores?q=${search}&sort=${sortField}&order=${sortOrder}`
+        `${import.meta.env.VITE_API_URL}/stores?q=${search}&sort=${sortField}&order=${sortOrder}`
       );
       
       const sData = await sRes.json();
@@ -49,7 +49,7 @@ export default function UserDashboard({ view }) {
       if (token) {
         
           const rRes = await fetch(
-            `http://43.204.232.198:4002/api/ratings`, 
+            `${import.meta.env.VITE_API_URL}/ratings`, 
             {
                 headers: { 
                     Authorization: `Bearer ${token}` 
@@ -100,7 +100,7 @@ export default function UserDashboard({ view }) {
 
     try {
         const res = await fetch(
-            "http://43.204.232.198:4002/api/ratings", 
+            `${import.meta.env.VITE_API_URL}/ratings`, 
             {
                 method: "POST",
                 headers: {
@@ -126,7 +126,7 @@ export default function UserDashboard({ view }) {
     setLoading(true);
     try {
       const res = await fetch(
-        "http://43.204.232.198:4002/api/auth/user/update-password",
+        `${import.meta.env.VITE_API_URL}/auth/user/update-password`,
         {
           method: "PUT",
           headers: {
