@@ -20,9 +20,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      "https://rate-it-app-frontend.vercel.app/"
-    ],
+    origin: "*",
     credentials: true,
 }));
 app.use(express.json());
